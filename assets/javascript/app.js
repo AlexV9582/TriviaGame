@@ -1,3 +1,4 @@
+var questionArray = []
 var numberArray = []
 var queryURL = "https://opentdb.com/api.php?amount=50&category=12&difficulty=medium&type=multiple";
 var correctAnswer = false
@@ -13,19 +14,6 @@ $("#wins").html(wins);
 $("#losses").html(losses)
 $("#timeRemaining").html(timeLeft)
 
-function reset () {
-	timeLeft = 10;
-	$("#timeRemaining").html(timeLeft)
-}
-
-
-function timer() {
-					intervalId = setInterval(timer, 1000);
-					timeLeft--;
-					displayTime = Math.floor(timeLeft);
-					console.log(timeLeft)
-					$("#timeRemaining").html(displayTime)
-				}
 
 			/*intervalId = setInterval(count, 1000);
 			time++;
@@ -106,10 +94,15 @@ $.ajax({
 		var radioValue = $("input[name='optradio']:checked").val();
 		if (radioValue == correctAnswerNumber) {
 			correctAnswer = true
+			wins++;
+			$("#wins").html(wins)
 			alert("Correct!")
 			reset();
 			timer();
-		}else {	alert("Wrong!")
+		}else {	
+			losses++;
+			$("#losses").html(losses)
+			alert("Wrong!")
 			correctAnswer = false
 		}
 			console.log(radioValue)
@@ -121,7 +114,26 @@ $.ajax({
 			$('input[name="optradio"]').prop('checked', false);
 
 		}
+		
 	})
+function reset () {
+			timeLeft = 10;
+			$("#timeRemaining").html(timeLeft)
+		}
+intervalId = setInterval(timer, 1000);
+function timer() {
+	if (timeLeft > 1) {	
+		timeLeft--;
+		displayTime = Math.floor(timeLeft);
+		console.log(timeLeft)
+		$("#timeRemaining").html(displayTime)
+	}else {
+		reset();
+		console.log("out of time")
+		losses++;
+		$("#losses").html(losses)
+	}
+}
 	
 			
 
@@ -145,7 +157,7 @@ $.ajax({
 		*/
 
 	questionGen()
-	tiemr()
+	timer()
 	
 });
 
