@@ -28,7 +28,18 @@ $.ajax({
 		console.log(response);
 		console.log(response.Runtime);
 		function questionGen(question) {
-			questionNumber = Math.floor((Math.random() * 49));
+			do{
+				questionNumber = Math.floor((Math.random() * 49));	
+			}
+			while(
+				questionArray.includes(questionNumber) === true
+				) {
+				if (questionArray.length === 50){
+					break;
+				}
+				questionArray.push(questionNumber)
+			}
+			
 			correctAnswerNumber = Math.floor((Math.random() * 4) + 1);
 			$("#question").html(response.results[questionNumber].question)
 //  Generate random number to assign correct answer to
@@ -128,10 +139,13 @@ function timer() {
 		console.log(timeLeft)
 		$("#timeRemaining").html(displayTime)
 	}else {
+		numberArray.length = 0
 		reset();
-		console.log("out of time")
+		console.log(timeLeft)
+		alert("Out of time")
 		losses++;
 		$("#losses").html(losses)
+		questionGen()
 	}
 }
 	
